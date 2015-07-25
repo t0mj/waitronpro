@@ -24,7 +24,7 @@
     <div class="col-xs-2">
         <div id="product-list" class="text-capitalize">
             <ul class="nav nav-pills nav-stacked" data-bind="foreach: productsByType">
-                <li data-toggle="tab"><a href="#" data-toggle="modal" data-bind="text: name, click: $root.getOptions" data-target="#suboption-modal"></a></li>
+                <li data-toggle="tab"><a href="#" data-toggle="modal" data-bind="text: name, click: $root.addItem"></a></li>
             </ul>
         </div>
     </div>
@@ -117,12 +117,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        <div data-bind="foreach: tagOptions">
+                        <div data-bind="foreach: productTagOptions">
                             <div class="row">
                                 <div class="btn-group" data-toggle="buttons" data-bind="foreach: optionsArray">
-                                    <span data-bind="text: tag"></span>
                                     <label class="btn btn-primary">
-                                        <input type="checkbox" data-bind="click: $root.poop" /><span data-bind="text: name"></span>
+                                        <input type="checkbox" data-bind="checked: $root.poop" /><span data-bind="text: name"></span>
                                     </label>
                                 </div>
                                 <!-- <div class="control-buttons" data-toggle="buttons-radio" data-bind="foreach: options">
