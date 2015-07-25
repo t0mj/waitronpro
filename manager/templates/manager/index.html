@@ -1,0 +1,150 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+{% block title %}Manager{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Manager</h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-2">
+        <div class="list-group">
+            <a href="" class="list-group-item" data-bind="css: { active: selectedTable() == 'options' }, click: loadTable.bind($data, 'options')">Options</a>
+            <a href="" class="list-group-item" data-bind="css: { active: selectedTable() == 'orders' }, click: loadTable.bind($data, 'orders')">Orders</a>
+            <a href="" class="list-group-item" data-bind="css: { active: selectedTable() == 'products' }, click: loadTable.bind($data, 'products')">Products</a>
+            <a href="" class="list-group-item" data-bind="css: { active: selectedTable() == 'rates' }, click: loadTable.bind($data, 'rates')">Rates</a>
+            <!-- <a href="" class="list-group-item" data-bind="css: { active: selectedTable() == 'settings' }, click: loadTable.bind($data, 'settings')">Settings</a> -->
+            <!-- <a href="" class="list-group-item" data-bind="css: { active: selectedTable() == 'users' }, click: loadTable.bind($data, 'users')">Users</a> -->
+        </div>
+    </div>
+
+    <div class="col-xs-10">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title text-capitalize" data-bind="text: selectedTable"></h3>
+            </div>
+            <!-- <div class="panel-body"> -->
+                <!-- Sort abilities -->
+            <!-- </div> -->
+
+            <!-- Default Panel Display -->
+            <div id='default-display' class="panel-body" data-bind="visible: selectedTable() == ''">
+                <p>Select a table to view or update.</p>
+            </div>
+
+            <!-- Options Table -->
+            <table id="options-table" class="table table-striped" data-bind="visible: selectedTable() == 'options'">
+                <tr class="text-nowrap">
+                    <th>Name</th>
+                    <th>Tag</th>
+                    <th>Notes</th>
+                    <th>Price</th>
+                    <th>Active</th>
+                    <th></th>
+                </tr>
+                <tbody id="options-rows" class="table-hover" data-bind="foreach: options">
+                    <tr data-bind="attr: {'id': id}">
+                        <td><div data-bind="text: name"></div></td>
+                        <td><div data-bind="text: tag"></div></td>
+                        <td><div data-bind="text: note"></div></td>
+                        <td class="text-nowrap">$ <span data-bind="dollarText: price"></span></td>
+                        <td class="text-center">
+                            <i class="fa fa-star clickable" data-bind="visible: active"></i>
+                            <i class="fa fa-star-o clickable" data-bind="visible: !active()"></i>
+                        </td>
+                        <td>
+                            <i class="fa fa-check clickable" data-bind="visible: editing"></i>
+                            <i class="fa fa-pencil clickable" data-bind="visible: !editing()"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table><!-- End Options Table -->
+
+            <!-- Orders Table -->
+            <table id="orders-table" class="table table-striped" data-bind="visible: selectedTable() == 'orders'">
+                <tr class="text-nowrap">
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th>Subtotal</th>
+                    <th>Tax</th>
+                    <th class="pull-right">Total</th>
+                </tr>
+                <tbody id="orders-rows" class="table-hover" data-bind="foreach: orders">
+                    <tr data-bind="attr: {'id': id}">
+                        <td><div data-bind="text: orderNum"></div></td>
+                        <td><div data-bind="text: fmtDate"></div></td>
+                        <td class="text-nowrap">$ <span data-bind="dollarText: total"></span></td>
+                        <td class="text-nowrap">$ <span data-bind="dollarText: tax"></span></td>
+                        <td class="text-nowrap pull-right">$ <span data-bind="dollarText: orderTotal"></span></td>
+                    </tr>
+                </tbody>
+            </table><!-- End Orders Table -->
+
+            <!-- Products Table -->
+            <table id="products-table" class="table table-striped" data-bind="visible: selectedTable() == 'products'">
+                <tr class="text-nowrap">
+                    <th>Product #</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Sub Options</th>
+                    <th>Price</th>
+                    <th>Active</th>
+                    <th></th>
+                </tr>
+                <tbody id="products-rows" class="table-hover" data-bind="foreach: products">
+                    <tr data-bind="attr: {'id': id}">
+                        <td><div data-bind="text: prodNum"></div></td>
+                        <td><div data-bind="text: name"></div></td>
+                        <td><div data-bind="text: description"></div></td>
+                        <td><div data-bind="text: type"></div></td>
+                        <td><div data-bind="text: subOptions"></div></td>
+                        <td class="text-nowrap">$ <span data-bind="dollarText: price"></span></td>
+                        <td class="text-center">
+                            <i class="fa fa-star clickable" data-bind="visible: active"></i>
+                            <i class="fa fa-star-o clickable" data-bind="visible: !active()"></i>
+                        </td>
+                        <td>
+                            <i class="fa fa-check clickable" data-bind="visible: editing"></i>
+                            <i class="fa fa-pencil clickable" data-bind="visible: !editing()"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table><!-- End Products Table -->
+
+            <!-- Rates Table -->
+            <table id="rates-table" class="table table-striped" data-bind="visible: selectedTable() == 'rates'">
+                <tr>
+                    <th>Sales Tax</th>
+                    <th>Donation</th>
+                    <!-- <th></th> -->
+                </tr>
+                <tbody id="rates-rows" class="table-hover" data-bind="foreach: rates">
+                    <tr data-bind="attr: {'id': id}">
+                        <td><div data-bind="percentText: salesTax"></div></td>
+                        <td><div data-bind="percentText: donation"></div></td>
+                        <!-- <td class="pull-right">
+                            <i class="fa fa-check clickable"></i>
+                            <i class="fa fa-pencil clickable"></i>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table><!-- End Rates Table -->
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js-load %}
+<script type='text/javascript' src="{% static "shared/js/models/order.js" %}"></script>
+<script type='text/javascript' src="{% static "shared/js/models/product.js" %}"></script>
+<script type='text/javascript' src="{% static "shared/js/models/rate.js" %}"></script>
+<script type='text/javascript' src="{% static "shared/js/models/option.js" %}"></script>
+<script type="text/javascript" src="{% static "js/manager.js" %}"></script>
+{% endblock %}

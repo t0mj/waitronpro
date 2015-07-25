@@ -1,0 +1,153 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+{% block title %}Orders{% endblock %}
+
+{% block css-load %}
+<link href="{% static "css/orders.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Orders</h1>
+</div>
+
+<div class="row">
+
+    <div class="col-xs-2">
+        <div id="product-type-list">
+            <ul class="nav nav-pills nav-stacked" data-bind="foreach:  productTypes">
+                <li><a href="#" data-toggle="tab" data-bind="text: type, click: $root.getProducts"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div id="product-list" class="text-capitalize">
+            <ul class="nav nav-pills nav-stacked" data-bind="foreach: productsByType">
+                <li data-toggle="tab"><a href="#" data-toggle="modal" data-bind="text: name, click: $root.getOptions" data-target="#suboption-modal"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-xs-5">
+        <div id="product-current" class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title pull-left">Item</h4>
+                <span class="pull-right">
+                    <a href="#" class="change-icon">
+                        <i class="fa fa-paper-plane-o fa-lg"></i>
+                        <i class="fa fa-paper-plane fa-lg"></i>
+                    </a>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <tr>
+                        <td>Pork Dinner</td>
+                        <td>$ 11.99</td>
+                        <td><i class="fa fa-minus"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Onion Rings Upcharge</td>
+                        <td>$ 0.39</td>
+                        <td><i class="fa fa-minus"></i></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-3">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading text-nowrap">
+                    <h4 class="pull-left">Order Total:</h4>
+                    <h4 class="pull-right">$ 13.67</h4>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="pull-left">Sub-Total:</div>
+                        <div class="pull-right">$ 12.34</div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="pull-left">Sales Tax:</div>
+                        <div class="pull-right">$ 0.98</div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel-group" id="ticket-accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div id="ticket-accordion-title" class="panel-heading">
+                        <h4 class="panel-title">Order Details</h4>
+                    </div>
+                    <div class="panel-heading" role="tab" id="ordLineId">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#ticket-accordion" href="#ordLineId-details" aria-expanded="true" aria-controls="ordLine-details">
+                                Collapsible Group Item #1
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="ordLineId-details" class="panel-collapse collapse" role="tabpanel" aria-labelledby="ordLineId">
+                        <div class="panel-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="suboption-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Product Options</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div data-bind="foreach: tagOptions">
+                            <div class="row">
+                                <div class="btn-group" data-toggle="buttons" data-bind="foreach: optionsArray">
+                                    <span data-bind="text: tag"></span>
+                                    <label class="btn btn-primary">
+                                        <input type="checkbox" data-bind="click: $root.poop" /><span data-bind="text: name"></span>
+                                    </label>
+                                </div>
+                                <!-- <div class="control-buttons" data-toggle="buttons-radio" data-bind="foreach: options">
+                                    <button type="button" class="btn btn-default" data-bind="attr: {value: name}"></button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js-load %}
+<script type='text/javascript' src="{% static "shared/js/models/option.js" %}"></script>
+<script type='text/javascript' src="{% static "shared/js/models/optionByTag.js" %}"></script>
+<script type='text/javascript' src="{% static "shared/js/models/order.js" %}"></script>
+<script type='text/javascript' src="{% static "shared/js/models/product.js" %}"></script>
+<script type='text/javascript' src="{% static "shared/js/models/rate.js" %}"></script>
+<script type='text/javascript' src="{% static "shared/js/models/type.js" %}"></script>
+<script type="text/javascript" src="{% static "js/orders.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static "shared/img/favicon.ico" %}">
+    <title>Waitron Pro - {% block title %}{% endblock %}</title>
+
+    <!-- Core CSS -->
+    <link href="{% static "shared/css/bootstrap.css" %}" rel="stylesheet" />
+    <link href="{% static "shared/css/bootstrap-theme.css" %}" rel="stylesheet" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "shared/css/waitron-wrap.css" %}" rel="stylesheet" />
+
+    <!-- Include sub-template CSS -->
+    {% block css-load %}
+    {% endblock %}
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand"><img class="pull-left" src="{% static "shared/img/favicon.ico" %}" alt="brand" />aitron Pro</span>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="{% ifequal request.path '/manager/' %}active{% endifequal %}"><a href="/manager/">Manager</a></li>
+            <li class="{% ifequal request.path '/orders/' %}active{% endifequal %}"><a href="/orders/">Orders</a></li>
+            <li class="{% ifequal request.path '/expediter/' %}active{% endifequal %}"><a href="/expediter/">Expediter</a></li>
+            <li class="dropdown {% ifequal request.path '/reports/' %}active{% endifequal %}">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">End of Day</a></li>
+                <li><a href="#">End of Month</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Custom Reports</li>
+                <li><a href="#">Extra Cost</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="./">Docs</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <!-- Include subtemplate content -->
+    <div id="page-content" class="container">
+    {% block content %}
+    {% endblock %}
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="{% static "shared/js/jquery-2.1.4.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "shared/js/bootstrap.min.js" %}"></script>
+    <script type='text/javascript' src="{% static "shared/js/moment.js" %}"></script>
+    <script type='text/javascript' src="{% static "shared/js/knockout-3.3.0.js" %}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+    <script type='text/javascript' src="{% static "shared/js/models/global.js" %}"></script>
+    <!-- Include sub-template js content -->
+    {% block js-load %}
+    {% endblock %}
+  </body>
+</html>

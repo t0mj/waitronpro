@@ -1,0 +1,26 @@
+body {
+    min-height: 2000px;
+    padding-top: 50px;
+}
+.clickable {
+    cursor: pointer;
+}
+.break-word {
+    word-wrap: break-all;
+}
+.bg-grey {
+    background-color: rgb(208,208,208);
+}
+
+.change-icon > .fa:nth-child(2) {
+    display: none;
+}
+.change-icon:hover > .fa:nth-child(1) {
+    display: none;
+}
+.change-icon:hover > .fa:nth-child(2) {
+    display: inherit;
+}
+a.change-icon:hover {
+    text-decoration: none;
+}
