@@ -1,7 +1,7 @@
 wp.managerView = (function() {
     var self = {};
 
-    self.tables = ['options', 'orders', 'products', 'rates']
+    self.tables = ['options', 'orders', 'products', 'rates'];
     self.options = ko.observableArray();
     self.orders = ko.observableArray();
     self.products = ko.observableArray();
@@ -12,16 +12,12 @@ wp.managerView = (function() {
         switch (table) {
             case 'options':
                 return self.options;
-                break;
             case 'orders':
                 return self.orders;
-                break;
             case 'products':
                 return self.products;
-                break;
             case 'rates':
                 return self.rates;
-                break;
             default:
                 return false;
         }
@@ -53,7 +49,7 @@ wp.managerView = (function() {
     };
 
     self.retrieveItems = function() {
-        var table = self.selectedTable()
+        var table = self.selectedTable();
         var method = table.charAt(0).toUpperCase() + table.substring(1);
         $.getJSON("api/retrieve" + method, function(data) {
             $.each(data, function(key, val) {
@@ -75,6 +71,58 @@ wp.managerView = (function() {
                 }
             });
         });
+    };
+
+    self.sortTable = function(arrayToSort, column, sortType) {
+        var order = self.sortOrder();
+        switch(sortType) {
+        case 'alpha':
+            switch(order) {
+            case 'desc':
+                return arrayToSort.sort(function(l, r) {
+                    return l[column]() === r[column]() ? l[column]() < r[column]() ? 1 : -1 : l[column]() < r[column]() ? 1 : -1;
+                });
+            case 'asc':
+                return arrayToSort.sort(function(l, r) {
+                    return l[column]() === r[column]() ? l[column]() > r[column]() ? 1 : -1 : l[column]() > r[column]() ? 1 : -1;
+                });
+            }
+            break;
+        case 'number':
+            return arrayToSort.sort(function(l, r) {
+                return Number(l[column]()) < Number(r[column]()) ? -1 : Number(l[column]()) > Number(r[column]()) ? 1 : Number(l[column]()) == Number(r[column]()) ? 0 : 0;
+            });
+        }
+    };
+
+    self.sortOrder = ko.observable('asc');
+
+    self.sortOptions = function(column, sortType, event) {
+        var elem = event.path[0];
+        var caretDown = $(elem.getElementsByClassName('fa-caret-down'));
+        var caretUp = $(elem.getElementsByClassName('fa-caret-up'));
+        if (caretDown.is(':visible')) {
+            caretDown.hide();
+            caretUp.show();
+        } else {
+             caretDown.show();
+             caretUp.hide();
+        }
+        self.options(self.sortTable(self.options(), column, sortType));
+    };
+
+    self.sortProducts = function(column, sortType, event) {
+        var elem = event.path[0];
+        var caretDown = $(elem.getElementsByClassName('fa-caret-down'));
+        var caretUp = $(elem.getElementsByClassName('fa-caret-up'));
+        if (caretDown.is(':visible')) {
+            caretDown.hide();
+            caretUp.show();
+        } else {
+             caretDown.show();
+             caretUp.hide();
+        }
+        self.products(self.sortTable(self.products(), column, sortType));
     };
 
     return self;

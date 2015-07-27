@@ -39,14 +39,14 @@
             <!-- Options Table -->
             <table id="options-table" class="table table-striped" data-bind="visible: selectedTable() == 'options'">
                 <tr class="text-nowrap">
-                    <th>Name</th>
+                    <th data-bind="click: sortOptions.bind($data, 'name', 'alpha', event)">Name <i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></th>
                     <th>Tag</th>
                     <th>Notes</th>
                     <th>Price</th>
                     <th>Active</th>
                     <th></th>
                 </tr>
-                <tbody id="options-rows" class="table-hover" data-bind="foreach: options">
+                <tbody id="options-rows" class="table-hover" data-bind="foreach: options().sort()">
                     <tr data-bind="attr: {'id': id}">
                         <td><div data-bind="text: name"></div></td>
                         <td><div data-bind="text: tag"></div></td>
@@ -87,8 +87,8 @@
             <!-- Products Table -->
             <table id="products-table" class="table table-striped" data-bind="visible: selectedTable() == 'products'">
                 <tr class="text-nowrap">
-                    <th>Product #</th>
-                    <th>Name</th>
+                    <th data-bind="click: sortProducts.bind($data, 'prodNum', 'number', event)">Product # <i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></th>
+                    <th data-bind="click: sortProducts.bind($data, 'name', 'alpha', event)">Name <i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></th>
                     <th>Description</th>
                     <th>Type</th>
                     <th>Sub Options</th>
