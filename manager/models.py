@@ -13,7 +13,7 @@ class Option(models.Model):
     tag = models.CharField(max_length=20)
     active = models.BooleanField(default=True)
     price = models.FloatField()
-    note = models.TextField()
+    note = models.TextField(null=True, blank=True)
 
 
 class Order(models.Model):
@@ -37,8 +37,8 @@ class OrdLine(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_num = models.ForeignKey('Order')
     prod_num = models.ForeignKey('Product')
-    qty = models.IntegerField(default=0)
     price = models.FloatField()
+    options = models.TextField(null=True, blank=True)
 
 
 class Product(models.Model):
@@ -53,7 +53,7 @@ class Product(models.Model):
     date_added = models.DateTimeField(default=timezone.now, editable=False)
     active = models.BooleanField(default=True)
     price = models.FloatField()
-    sub_options = models.TextField()
+    sub_options = models.TextField(null=True, blank=True)
 
 
 class Rate(models.Model):

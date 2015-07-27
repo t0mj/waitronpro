@@ -15,7 +15,7 @@ def index(request):
 
 def retrieve_product_types(request):
     """Return a list of all product types."""
-    types = Product.objects.values('type').distinct()
+    types = Product.objects.filter(active=True).values('type').distinct()
     data = to_json(types)
     return HttpResponse(data)
 

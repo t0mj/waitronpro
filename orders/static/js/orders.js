@@ -32,6 +32,7 @@ wp.ordersView = (function() {
             $.each(data, function(key, val) {
                 self.productTypes.push(new wp.models.Type().mapDict(val));
             });
+            self.productTypes().sort();
             viewModel.retrieveActiveOptions();
         });
     };

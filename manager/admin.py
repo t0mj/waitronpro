@@ -4,15 +4,15 @@ from .models import Option, Order, OrdLine, Product, Rate, Setting
 
 
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price']
+    list_display = ['name', 'tag', 'price']
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['prod_num', 'name', 'price']
+    list_display = ['prod_num', 'type', 'name', 'price', 'sub_options']
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['order_num', 'date']
+    list_display = ['order_num', 'total', 'tax', 'date']
 
 
 class RateAdmin(admin.ModelAdmin):
